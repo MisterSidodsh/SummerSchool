@@ -1,0 +1,37 @@
+CC=gcc
+CFLAGS= -c -MD 
+source_dirs= scr
+search_wildcard_s=$(addsuffix /*.c,$(source_dirs))
+EXECUTABLE=HW
+override compile_flags=-pipe
+source_bin = bin
+obj_dir= obj
+
+
+VPATH = $(source_dirs)
+
+$(source_bin)/$(EXECUTABLE): $(addprefix $(obj_dir)/, $(notdir $(patsubst %.c, %.o, $(wildcard $(search_wildcard_s))))	)
+	$(CC)  $^ -o $@
+	
+
+$(addprefix $(obj_dir)/, %.o): %.c
+	$(CC) $(CFLAGS)  $^ -o $@
+
+
+clean:
+	rm -f *.o *.d $(source_bin)/$(EXECUTABLE)
+	rm -f $(obj_dir)/*.o $(obj_dir)/*.d
+	rm -f $(source_dirs)/*.c
+
+mkd:
+	mkdir scr
+	mkdir obj
+	mkdir bin
+rmd:
+	rmdir  scr
+	rmdir  obj
+	rmdir  bin
+mvOLA:
+	cp OneLineArray.c ./scr
+mvTLA:
+	cp TwoLineArray.c ./scr
